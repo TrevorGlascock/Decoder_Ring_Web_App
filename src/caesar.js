@@ -9,6 +9,11 @@ const caesarModule = (function () {
   function caesar(input, shift, encode = true) {
     // valid shift checking
     if (!shift || shift < -25 || shift > 25) return false;
+    let output = "";
+    for (let character of input) {
+      output += character;
+    }
+    return output;
   }
 
   return {
