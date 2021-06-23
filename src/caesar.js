@@ -7,7 +7,7 @@ const caesarModule = (function () {
   // you can add any code you want within this function scope
 
   function caesar(input, shift, encode = true) {
-    // your solution code here
+    // valid shift checking
     if (!shift || shift < -25 || shift > 25) return false;
   }
 
