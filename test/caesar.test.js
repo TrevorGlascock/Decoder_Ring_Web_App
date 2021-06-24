@@ -75,8 +75,8 @@ describe("Caesar Shift", () => {
 
     it("returns a correct encryption even when provided with non-letters", () => {
       const input = "i'd rate carl's sandwich: 8/10";
-      const shift = 7;
-      const expected = "p'k yhal jhys'z zhukdpjo: 8/10";
+      const shift = 2;
+      const expected = "k'f tcvg ectn'u ucpfykej: 8/10";
       const actual = caesar(input, shift);
       expect(actual).to.be.equal(expected);
     });
