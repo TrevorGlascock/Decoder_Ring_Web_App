@@ -11,6 +11,13 @@ describe("Caesar Shifts", () => {
       const actual = caesar(input, shift);
       expect(actual).to.be.equal(expected);
     });
+    it("works with multi-word strings using only lowercase letters", () => {
+      const input = "trevor is the name";
+      const shift = 2;
+      const expected = "vtgxqt ku vjg pcog";
+      const actual = caesar(input, shift);
+      expect(actual).to.be.equal(expected);
+    });
   });
 
   describe("return false when given invalid shifts: ", () => {

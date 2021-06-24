@@ -24,9 +24,9 @@ const caesarModule = (function () {
   //Helper function to actually encrypt the a given character
   function shifter(input, shift) {
     let output = input.toLowerCase(); //since our output is expected to be lower case
-    // if (!output.match(/[a-z]/)) return output; //if our current character is not between a-z then we don't shift
-    const char = output.charCodeAt();
-    let shifted = 0;
+    if (!output.match(/[a-z]/)) return output; //if our current character is not between a-z then we don't shift
+
+    const char = output.charCodeAt(); //charCodeAt to extract asci code, do math on it, then cast it back as a String
     output = String.fromCharCode(char + shift);
     return output;
   }
