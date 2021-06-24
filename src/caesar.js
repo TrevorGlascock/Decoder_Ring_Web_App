@@ -21,7 +21,7 @@ const caesarModule = (function () {
       .join(""); //join up the shifted array to return it as a string again
   }
 
-  //Helper function to actually encrypt the a given character
+  //Helper function to actually encrypt the given character
   function shifter(input, shift) {
     let output = input.toLowerCase(); //since our output is expected to be lower case
     if (!output.match(/[a-z]/)) return output; //regexp; if char isn't between a-z, then no need to transform it
