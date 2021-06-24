@@ -13,7 +13,7 @@ const caesarModule = (function () {
     if (typeof input !== "string") return false;
 
     //if we are decoding, we need to shift in the opposite direction
-    shift = encode ? shift : -1 * shift;
+    shift *= encode ? 1 : -1;
     //iterate through the input string and map our shifted characters
     return input
       .split("") //split by character to cast as array for iteration
