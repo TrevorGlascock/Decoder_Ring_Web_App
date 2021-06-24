@@ -4,15 +4,32 @@ const { caesar } = require("../src/caesar");
 
 describe("Caesar Shifts", () => {
   describe("encryptions work for all input cases: ", () => {
-    it("works with single word using only lowercase letters", () => {
+    it("returns correct encryption when input is one word", () => {
       const input = "thinkful";
       const shift = 3;
       const expected = "wklqnixo";
       const actual = caesar(input, shift);
       expect(actual).to.be.equal(expected);
     });
-    it("works with multi-word strings using only lowercase letters", () => {
+
+    it("returns correct encryption even when input is multiple words", () => {
       const input = "trevor is the name";
+      const shift = 2;
+      const expected = "vtgxqt ku vjg pcog";
+      const actual = caesar(input, shift);
+      expect(actual).to.be.equal(expected);
+    });
+
+    it("returns correct encryption even when it needs to wrap around the alphabet", () => {
+      const input = "xylophone has lots of letters near z";
+      const shift = 13;
+      const expected = "klybcubar unf ybgf bs yrggref arne m";
+      const actual = caesar(input, shift);
+      expect(actual).to.be.equal(expected);
+    });
+
+    it("returns a lowercase encryption, regardless of input case", () => {
+      const input = "TReVoR Is ThE NaME";
       const shift = 2;
       const expected = "vtgxqt ku vjg pcog";
       const actual = caesar(input, shift);
