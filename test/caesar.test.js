@@ -3,61 +3,129 @@ const expect = require("chai").expect;
 const { caesar } = require("../src/caesar");
 
 describe("Caesar Shift", () => {
-  /****************************
-   * POSITIVE SHIFTING TESTS
-   ****************************/
-  describe("encryptions work for all positive shift input cases: ", () => {
-    it("returns correct encryption when input is one word", () => {
-      const input = "thinkful";
-      const shift = 3;
-      const expected = "wklqnixo";
-      const actual = caesar(input, shift);
-      expect(actual).to.be.equal(expected);
+  /**************************************************
+   * *  * * * * * * * ENCRYPTION  * * * * * * * * * *
+   **************************************************/
+  describe("Encryptions", () => {
+    /*******************
+     * POSITIVE SHIFTING
+     ********************/
+    describe("positive shift", () => {
+      it("correct encryption for single word", () => {
+        const input = "thinkful";
+        const shift = 3;
+        const expected = "wklqnixo";
+        const actual = caesar(input, shift);
+        expect(actual).to.be.equal(expected);
+      });
+
+      it("correct encryption for multiple words", () => {
+        const input = "trevor is the name";
+        const shift = 2;
+        const expected = "vtgxqt ku vjg pcog";
+        const actual = caesar(input, shift);
+        expect(actual).to.be.equal(expected);
+      });
+
+      it("correct encryption when wraping around the alphabet", () => {
+        const input = "xylophone has lots of letters near z";
+        const shift = 13;
+        const expected = "klybcubar unf ybgf bs yrggref arne m";
+        const actual = caesar(input, shift);
+        expect(actual).to.be.equal(expected);
+      });
     });
 
-    it("returns correct encryption even when input is multiple words", () => {
-      const input = "trevor is the name";
-      const shift = 2;
-      const expected = "vtgxqt ku vjg pcog";
-      const actual = caesar(input, shift);
-      expect(actual).to.be.equal(expected);
-    });
+    /*******************
+     * NEGATIVE SHIFTING
+     *******************/
+    describe("negative shift", () => {
+      it("correct encryption for single word", () => {
+        const input = "thinkful";
+        const shift = -3;
+        const expected = "qefkhcri";
+        const actual = caesar(input, shift);
+        expect(actual).to.be.equal(expected);
+      });
 
-    it("returns correct encryption even when it needs to wrap around the alphabet", () => {
-      const input = "xylophone has lots of letters near z";
-      const shift = 13;
-      const expected = "klybcubar unf ybgf bs yrggref arne m";
-      const actual = caesar(input, shift);
-      expect(actual).to.be.equal(expected);
+      it("correct encryption for multiple words", () => {
+        const input = "trevor is the name";
+        const shift = -1;
+        const expected = "sqdunq hr sgd mzld";
+        const actual = caesar(input, shift);
+        expect(actual).to.be.equal(expected);
+      });
+
+      it("correct encryption when wraping around the alphabet", () => {
+        const input = "granny smith apples has lots of letters near a";
+        const shift = -8;
+        const expected = "yjsffq kealz shhdwk zsk dglk gx dwllwjk fwsj s";
+        const actual = caesar(input, shift);
+        expect(actual).to.be.equal(expected);
+      });
     });
   });
 
-  /****************************
-   * NEGATIVE SHIFTING TESTS
-   ****************************/
-  describe("encryptions work for all negative shift input cases: ", () => {
-    it("returns correct encryption when input is one word", () => {
-      const input = "thinkful";
-      const shift = -3;
-      const expected = "qefkhcri";
-      const actual = caesar(input, shift);
-      expect(actual).to.be.equal(expected);
+  /**************************************************
+   * *  * * * * * * * DECRYPTION  * * * * * * * * * *
+   **************************************************/
+  describe("Decryptions", () => {
+    /*******************
+     * POSITIVE SHIFTING
+     ********************/
+    describe("positive shift", () => {
+      it("correct decryption for single word", () => {
+        const input = "wklqnixo";
+        const shift = 3;
+        const expected = "thinkful";
+        const actual = caesar(input, shift, false);
+        expect(actual).to.be.equal(expected);
+      });
+
+      it("correct decryption for multiple words", () => {
+        const input = "vtgxqt ku vjg pcog";
+        const shift = 2;
+        const expected = "trevor is the name";
+        const actual = caesar(input, shift, false);
+        expect(actual).to.be.equal(expected);
+      });
+
+      it("correct decryption when wraping around the alphabet", () => {
+        const input = "klybcubar unf ybgf bs yrggref arne m";
+        const shift = 13;
+        const expected = "xylophone has lots of letters near z";
+        const actual = caesar(input, shift, false);
+        expect(actual).to.be.equal(expected);
+      });
     });
 
-    it("returns correct encryption even when input is multiple words", () => {
-      const input = "trevor is the name";
-      const shift = -1;
-      const expected = "sqdunq hr sgd mzld";
-      const actual = caesar(input, shift);
-      expect(actual).to.be.equal(expected);
-    });
+    /*******************
+     * NEGATIVE SHIFTING
+     *******************/
+    describe("negative shift", () => {
+      it("correct decryption for single word", () => {
+        const input = "qefkhcri";
+        const shift = -3;
+        const expected = "thinkful";
+        const actual = caesar(input, shift, false);
+        expect(actual).to.be.equal(expected);
+      });
 
-    it("returns correct encryption even when it needs to wrap around the alphabet", () => {
-      const input = "granny smith apples has lots of letters near a";
-      const shift = -8;
-      const expected = "yjsffq kealz shhdwk zsk dglk gx dwllwjk fwsj s";
-      const actual = caesar(input, shift);
-      expect(actual).to.be.equal(expected);
+      it("correct decryption for multiple words", () => {
+        const input = "sqdunq hr sgd mzld";
+        const shift = -1;
+        const expected = "trevor is the name";
+        const actual = caesar(input, shift, false);
+        expect(actual).to.be.equal(expected);
+      });
+
+      it("correct decryption when wraping around the alphabet", () => {
+        const input = "yjsffq kealz shhdwk zsk dglk gx dwllwjk fwsj s";
+        const shift = -8;
+        const expected = "granny smith apples has lots of letters near a";
+        const actual = caesar(input, shift, false);
+        expect(actual).to.be.equal(expected);
+      });
     });
   });
 
