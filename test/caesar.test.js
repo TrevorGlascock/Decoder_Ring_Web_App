@@ -5,9 +5,9 @@ const { caesar } = require("../src/caesar");
 describe("Caesar Shifts", () => {
   describe("encryptions work for all input cases: ", () => {
     it("works with single word using only lowercase letters", () => {
-      const input = "WORD";
-      const shift = 1;
-      const expected = "word";
+      const input = "thinkful";
+      const shift = 3;
+      const expected = "wklqnixo";
       const actual = caesar(input, shift);
       expect(actual).to.be.equal(expected);
     });

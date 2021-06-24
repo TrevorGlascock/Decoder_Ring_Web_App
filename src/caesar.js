@@ -9,18 +9,25 @@ const caesarModule = (function () {
   function caesar(input, shift, encode = true) {
     // valid shift checking
     if (!shift || shift < -25 || shift > 25) return false;
+    // valid input checking
+    if (typeof input !== "string") return false;
 
     //if we are decoding, we need to shift in the opposite direction
     shift = encode ? shift : -1 * shift;
-
     //iterate through the input string and map our shifted characters
-    return String(Array(input).map((character) => shifter(character, shift)));
+    return input
+      .split("") //split by character to cast as array for iteration
+      .map((character) => shifter(character, shift)) //map through each character applying shifter()
+      .join(""); //join up the shifted array to return it as a string again
   }
 
   //Helper function to actually encrypt the a given character
   function shifter(input, shift) {
-    if (typeof input !== "string") return input;
     let output = input.toLowerCase(); //since our output is expected to be lower case
+    // if (!output.match(/[a-z]/)) return output; //if our current character is not between a-z then we don't shift
+    const char = output.charCodeAt();
+    let shifted = 0;
+    output = String.fromCharCode(char + shift);
     return output;
   }
 
