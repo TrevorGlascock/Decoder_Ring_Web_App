@@ -31,9 +31,9 @@ const polybiusModule = (function () {
   function decrypt(index) {
     //starting with weird Stringified numbers like "11" and "32", so we need to parse it
     const char = parseIndex(index);
-    //if our char is i or j, then just return "(i/j)"
+    //if our char is i, then just return "(i/j)"
     if (char === 105) return "(i/j)";
-    //if our code is in between i and j, we need to shift 1 to the right
+    //if our code is in between i and z, we need to shift 1 to the right to account for i and j being merged
     const shift = char > 105 && char < 123 ? 1 : 0;
     return String.fromCharCode(char + shift);
   }
