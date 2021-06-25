@@ -96,6 +96,7 @@ const polybiusModule = (function () {
     //("32",5) => 3 + (2-1)*5 = 3 + 1*5  = 3 + 5 = 8
     const col = index.charAt(0) - 0;
     const row = index.charAt(1) - 1;
+    if (col > size || row > size) return false;
     let char = col + row * size;
     //index "11" starts at "a"
     //"a" code is 97, so if we parse to 1, we add 96 to start at 97
