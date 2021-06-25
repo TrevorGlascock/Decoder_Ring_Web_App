@@ -7,32 +7,32 @@ const caesarModule = (function () {
   // you can add any code you want within this function scope
 
   function caesar(input, shift, encode = true) {
-    // valid shift checking
-    if (!shift || shift < -25 || shift > 25) return false;
-    // valid input checking
-    if (typeof input !== "string") return false;
+    if (!shift || shift < -25 || shift > 25) return false; // valid shift checking
+    if (typeof input !== "string") return false; // valid input checking
 
-    //if we are decoding, we need to shift in the opposite direction
-    shift *= encode ? 1 : -1;
-    //iterate through the input string and map our shifted characters
-    return input
-      .split("") //split by character to cast as array for iteration
-      .map((character) => shifter(character, shift)) //map through each character applying shifter()
-      .join(""); //join up the shifted array to return it as a string again
+    shift *= encode ? 1 : -1; //if we are decoding, we need to shift in the opposite direction
+
+    return input //iterate through the input string and map our shifted characters
+      .toLowerCase()
+      .split("")
+      .map((character) => _shifter(character, shift))
+      .join("");
   }
 
-  //Helper function to actually encrypt the given character
-  function shifter(input, shift) {
-    let output = input.toLowerCase(); //since our output is expected to be lower case
-    if (!output.match(/[a-z]/)) return output; //regexp; if char isn't between a-z, then no need to transform it
+  //Helper function that preforms the actual mathematical algorithm
+  function _shifter(character, shift) {
+    const key = "abcdefghijklmnopqrstuvwxyz".split(""); //array of alphabet as our cipher key
 
-    const char = output.charCodeAt(); //charCodeAt to extract asci code, do math on it, then cast it back as a String
-    const shifted =
-      shift > 0
-        ? ((char - 97 + shift) % 26) + 97 //if shift is positive, we need to be looping back to a (97)
-        : ((char - 122 + shift) % 26) + 122; //if shift is negative, we need to be looping forward to z (122)
-    output = String.fromCharCode(shifted);
-    return output;
+    if (!character.match(/[a-z]/)) return character; //if the current character isn't a letter, we aren't transforming it
+
+    let index = key.indexOf(character); //find index number from key array
+    let indexShift = index + shift; //the new index
+
+    //Using while allows our code to work for any shift number if the client decided to 86 the shift error restriction
+    while (indexShift > 25) indexShift -= 26; //wrap array OoB on right side
+    while (indexShift < 0) indexShift += 26; //wrap array OoB on left side
+
+    return key[indexShift];
   }
 
   return {
