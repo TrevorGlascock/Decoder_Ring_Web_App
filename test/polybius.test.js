@@ -13,13 +13,13 @@ describe("Polybius Square", () => {
       const actual = polybius(input);
       expect(actual).to.be.equal(expected);
     });
-    it("encrypts any word correctly", () => {
+    it("encrypts all letters correctly", () => {
       const input = "abcdefghijklmnopqrstuvwxyz";
       const expected = "1121314151122232424252132333435314243444541525354555";
       const actual = polybius(input);
       expect(actual).to.be.equal(expected);
     });
-    it("encrypts any number of words correctly", () => {
+    it("encrypts letters seperated by spaces correctly", () => {
       const input = "abcde fghij klmno pqrst uvwxy z";
       const expected =
         "1121314151 1222324242 5213233343 5314243444 5415253545 55";
@@ -32,20 +32,31 @@ describe("Polybius Square", () => {
       const actual = polybius(input);
       expect(actual).to.be.equal(expected);
     });
+    it("returns false when attemtping to encrypt anything other than letters and spaces", () => {
+      const input = "2222";
+      const actual = polybius(input);
+      expect(actual).to.be.false;
+    });
   });
   /**************************************************
    * *  * * * * * * * DECRYPTING!  * * * * * * * * * *
    **************************************************/
   describe("Decryption", () => {
-    it("decrypts correctly", () => {
-      const input = "4432423352125413";
-      const expected = "th(i/j)nkful";
+    it("decrypts a single code correctly", () => {
+      const input = "3251131343";
+      const expected = "hello";
       const actual = polybius(input, false);
       expect(actual).to.be.equal(expected);
     });
     it("decrypts codes seperated by spaces correctly", () => {
       const input = "3251131343 2543241341";
       const expected = "hello world";
+      const actual = polybius(input, false);
+      expect(actual).to.be.equal(expected);
+    });
+    it("decrypts code 42 as (i/j) correctly", () => {
+      const input = "4432423352125413";
+      const expected = "th(i/j)nkful";
       const actual = polybius(input, false);
       expect(actual).to.be.equal(expected);
     });
@@ -56,6 +67,11 @@ describe("Polybius Square", () => {
     });
     it("returns false when decrypting multiple words with at least one being of an odd length", () => {
       const input = "3251131343 443242335212541 2543241341 ";
+      const actual = polybius(input, false);
+      expect(actual).to.be.false;
+    });
+    it("returns false when given invalid codes", () => {
+      const input = "66778899";
       const actual = polybius(input, false);
       expect(actual).to.be.false;
     });

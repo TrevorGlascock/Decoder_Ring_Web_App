@@ -26,12 +26,13 @@ const polybiusModule = (function () {
   function encodeWord(word) {
     return word
       .split("")
-      .map((letter) => `${encodeLetter(letter)}`) //Template literal to force cast as string
+      .map((letter) => encodeLetter(letter))
       .join("");
   }
   //Encode a letter into a polybius code
   function encodeLetter(char) {
     char = char.toLowerCase(); //convert to lowercase
+    if (!char.match(/[a-z]/)) return false; //error catch for anything other than letters
     char = char.charCodeAt(char); //grab the ascii code
     if (char === 105) return "42"; //if our char code is 105 ("i"), then just return "42"
     //const shift = char > 104 ? 1 : 0; //if our char code is in between i and z, we need to shift +1 to account for i and j being merged
@@ -75,6 +76,7 @@ const polybiusModule = (function () {
       const colrow = `${word.charAt(i)}${word.charAt(i + 1)}`;
       //parse the col#row# String into a char code Number
       const char = parseCode(colrow);
+      if (!char) return false; //if parseCode returns false on any letter then the whole word is false
       output += decodeLetter(char);
     }
     return output;
@@ -82,7 +84,7 @@ const polybiusModule = (function () {
 
   //Maps each coded letter into a decoded letter
   function decodeLetter(char) {
-    // if (char < 97 || char > 122) return String.fromCharCode(char); //ignores anything that isn't a loewercase letter
+    if (char < 97 || char > 122) return String.fromCharCode(char); //ignores anything that isn't a loewercase letter
     //if our char code is 105 ("i"), then just return "(i/j)"
     if (char === 105) return "(i/j)";
     //if our char code is in between i and z, we need to shift +1 to account for i and j being merged
@@ -96,6 +98,7 @@ const polybiusModule = (function () {
     //("32",5) => 3 + (2-1)*5 = 3 + 1*5  = 3 + 5 = 8
     const col = index.charAt(0) - 0;
     const row = index.charAt(1) - 1;
+    if (col > size || row > size) return false;
     let char = col + row * size;
     //index "11" starts at "a"
     //"a" code is 97, so if we parse to 1, we add 96 to start at 97
