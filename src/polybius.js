@@ -31,27 +31,32 @@ const polybiusModule = (function () {
   }
   //Encode a letter into a polybius code
   function encodeLetter(char) {
-    char = char.charCodeAt(char.toLowerCase()); //convert to lowercase and grab ascii code
+    char = char.toLowerCase(); //convert to lowercase
+    char = char.charCodeAt(char); //grab the ascii code
     if (char === 105) return "42"; //if our char code is 105 ("i"), then just return "42"
-    const shift = char > 105 && char < 123 ? 1 : 0; //if our char code is in between i and z, we need to shift +1 to account for i and j being merged
-    return parseLetter(char + shift - 96); //"a" would be 1, so we subtract 96
+    //const shift = char > 104 ? 1 : 0; //if our char code is in between i and z, we need to shift +1 to account for i and j being merged
+    return parseLetter(char - 96); //"a" would be 1, so we subtract 96
   }
   //Helper function that transforms sequential numbers into "{col}{row}" matrix format of specified size
   function parseLetter(number, size = 5) {
     //(number,size) => "col#row#"
-    //(3,5) => "31" (aka "c")
-    //(8,5)=> "32" (aka "h")
+    //(8,5)=> "32" (aka "h") || Need to figure out the row, and the column
+    if (number > 8) number--; //if we're at a letter after i, we need to shift left 1
     const row = convertRow(number);
     const col = convertCollumn(number);
     return `${col}${row}`;
   }
 
+  //converts a number into a corresponding row
   function convertRow(number, size = 5) {
+    // number divided by matrix size rounded up is the row number
     number = Math.ceil(number / size);
     return number;
   }
 
+  //converts a number into a corresponding column
   function convertCollumn(number, size = 5) {
+    //while number is greater than matrix size, subtract matrix size from the number
     while (number > size) number -= size;
     return number;
   }
@@ -103,6 +108,7 @@ const polybiusModule = (function () {
    *********************************************/
   // Creates an index matrix of specified size
   function createIndexGrid(size = 5) {
+    //used this to print a number grid to help me understand the conversion and counting rows and columns
     const grid = [];
     for (let row = 0; row < size; row++) {
       const thisRow = [];
@@ -112,7 +118,7 @@ const polybiusModule = (function () {
     }
     return grid;
   }
-  //maps each index in a matrix to a decoded letter
+  //maps each index in a matrix to a decoded letter -- used this to decode a matrix of coordinates
   function mapIndexToLetter(matrix) {
     return matrix.map((rows) => rows.map((index) => decodeLetter(index)));
   }

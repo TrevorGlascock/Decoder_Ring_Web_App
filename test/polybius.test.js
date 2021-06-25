@@ -14,8 +14,21 @@ describe("Polybius Square", () => {
       expect(actual).to.be.equal(expected);
     });
     it("encrypts any word correctly", () => {
-      const input = "thinkful";
-      const expected = "4432423352125413";
+      const input = "abcdefghijklmnopqrstuvwxyz";
+      const expected = "1121314151122232424252132333435314243444541525354555";
+      const actual = polybius(input);
+      expect(actual).to.be.equal(expected);
+    });
+    it("encrypts any number of words correctly", () => {
+      const input = "abcde fghij klmno pqrst uvwxy z";
+      const expected =
+        "1121314151 1222324242 5213233343 5314243444 5415253545 55";
+      const actual = polybius(input);
+      expect(actual).to.be.equal(expected);
+    });
+    it("encrypts correctly regardless of input case", () => {
+      const input = "aBcDefGHijKLmnOpqRstUVWxYz";
+      const expected = "1121314151122232424252132333435314243444541525354555";
       const actual = polybius(input);
       expect(actual).to.be.equal(expected);
     });
