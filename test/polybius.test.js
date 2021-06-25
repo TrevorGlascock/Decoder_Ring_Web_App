@@ -32,6 +32,11 @@ describe("Polybius Square", () => {
       const actual = polybius(input);
       expect(actual).to.be.equal(expected);
     });
+    it("returns false when attemtping to encrypt anything other than letters and spaces", () => {
+      const input = "2222";
+      const actual = polybius(input);
+      expect(actual).to.be.false;
+    });
   });
   /**************************************************
    * *  * * * * * * * DECRYPTING!  * * * * * * * * * *
