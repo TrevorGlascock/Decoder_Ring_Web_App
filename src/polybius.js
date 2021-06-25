@@ -15,22 +15,34 @@ const polybiusModule = (function () {
   }
 
   function decrypt(input) {
-    //make sure it's even
-    if (!input % 2) return false;
-    let output = "";
-    for (let i = 0; i < input.length; i += 2) {
-      const currentCode = `${input.charAt(i)}${input.charAt(i + 1)}`;
-      output += decryptLetter(currentCode);
-    }
-    return output;
+    const output = input
+      //split the input into an array by spaces
+      .split(" ")
+      //For each word, run the decryption
+      .map((word) => {
+        let newWord = "";
+        //if our word isn't even in length we need to return false
+        if (word.length % 2) return false;
+        //iterate by 2 through the coded string
+        for (let i = 0; i < word.length; i += 2) {
+          const currentCode = `${word.charAt(i)}${word.charAt(i + 1)}`;
+          newWord += decryptLetter(currentCode);
+        }
+        return newWord;
+      })
+      //rejoin the array of words into one string seperated by spaces
+      .join(" ");
+    //if any of our words are not even in length, we need to return false
+    return output.includes("false") ? false : output;
   }
 
   function decryptLetter(index) {
     //starting with weird Stringified numbers like "11" and "32", so we need to parse it
     const char = parseIndex(index);
-    //if our char is i, then just return "(i/j)"
+    //  if (char < 97 || char > 122) return String.fromCharCode(char); //ignores anything that isn't a loewercase letter
+    //if our char code is i, then just return "(i/j)"
     if (char === 105) return "(i/j)";
-    //if our code is in between i and z, we need to shift 1 to the right to account for i and j being merged
+    //if our char code is in between i and z, we need to shift +1 to account for i and j being merged
     const shift = char > 105 && char < 123 ? 1 : 0;
     return String.fromCharCode(char + shift);
   }
