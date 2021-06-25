@@ -4,41 +4,41 @@ const { polybius } = require("../src/polybius");
 
 describe("Polybius Square", () => {
   /**************************************************
-   * *  * * * * * * * GRIDMAN!  * * * * * * * * * *
+   * *  * * * * * * * ENCRYPTING!  * * * * * * * * * *
    **************************************************/
-  describe("Trying to get the key right", () => {
-    /*******************
-     * ENCRYPTING
-     ********************/
-    it("the key is literally correct", () => {
-      const input = "";
+  describe("Encryption", () => {
+    it("encrypts correctly", () => {
+      const input = "thinkful";
+      const expected = "4432423352125413";
       const actual = polybius(input);
-      expect(actual).to.be.eql([
-        ["a", "b", "c", "d", "e"],
-        ["f", "g", "h", "(i/j)", "k"],
-        ["l", "m", "n", "o", "p"],
-        ["q", "r", "s", "t", "u"],
-        ["v", "w", "x", "y", "z"],
-      ]);
+      expect(actual).to.be.equal(expected);
     });
-    /*
-    it("the key is the correct number", () => {
-      const input = "";
-      const actual = polybius(input);
-      expect(actual).to.be.eql([
-        ["11", "21", "31", "41", "51"],
-        ["12", "22", "32", "42", "52"],
-        ["13", "23", "33", "43", "53"],
-        ["14", "24", "34", "44", "54"],
-        ["15", "25", "35", "45", "55"],
-      ]);
+  });
+  /**************************************************
+   * *  * * * * * * * DECRYPTING!  * * * * * * * * * *
+   **************************************************/
+  describe("Decryption", () => {
+    it("decrypts correctly", () => {
+      const input = "4432423352125413";
+      const expected = "th(i/j)nkful";
+      const actual = polybius(input, false);
+      expect(actual).to.be.equal(expected);
     });
-    */
-    // it("The encryption works!", () => {
-    //   const input = "thinkful";
-    //   const expected = "4432423352125413";
-    //   const actual = polybius(input);
-    //   expect(actual).to.be.equal(expected);
-    // });
+    it("decrypts codes seperated by spaces correctly", () => {
+      const input = "3251131343 2543241341";
+      const expected = "hello world";
+      const actual = polybius(input, false);
+      expect(actual).to.be.equal(expected);
+    });
+    it("returns false when decrypting a message of odd length", () => {
+      const input = "443242335212541";
+      const actual = polybius(input, false);
+      expect(actual).to.be.false;
+    });
+    it("returns false when decrypting multiple words with at least one being of an odd length", () => {
+      const input = "3251131343 443242335212541 2543241341 ";
+      const actual = polybius(input, false);
+      expect(actual).to.be.false;
+    });
   });
 });
