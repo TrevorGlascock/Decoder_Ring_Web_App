@@ -7,7 +7,13 @@ describe("Polybius Square", () => {
    * *  * * * * * * * ENCRYPTING!  * * * * * * * * * *
    **************************************************/
   describe("Encryption", () => {
-    it("encrypts correctly", () => {
+    it("encrypts letters before i correctly", () => {
+      const input = "abcdefgh";
+      const expected = "1121314151122232";
+      const actual = polybius(input);
+      expect(actual).to.be.equal(expected);
+    });
+    it("encrypts any word correctly", () => {
       const input = "thinkful";
       const expected = "4432423352125413";
       const actual = polybius(input);
