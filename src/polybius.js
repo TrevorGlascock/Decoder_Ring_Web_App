@@ -77,7 +77,7 @@ const polybiusModule = (function () {
       //parse the col#row# String into a char code Number
       const char = _parseCode(colrow);
       if (!char) return false; //if parseCode returns false on any letter then the whole word is false
-      output += _decodeLetter(char);
+      output += _asciiConversion(char);
     }
     return output;
   }
@@ -96,8 +96,8 @@ const polybiusModule = (function () {
     return char;
   }
 
-  //Maps each coded letter into a decoded letter
-  function _decodeLetter(char) {
+  //Helper functio that transforms ascii code into correctly decoded letter
+  function _asciiConversion(char) {
     if (char < 97 || char > 122) return String.fromCharCode(char); //ignores anything that isn't a loewercase letter
     //if our char code is 105 ("i"), then just return "(i/j)"
     if (char === 105) return "(i/j)";
