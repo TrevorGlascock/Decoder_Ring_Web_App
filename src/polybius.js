@@ -75,35 +75,35 @@ const polybiusModule = (function () {
       //[i]is collumn, [i+1] is row
       const colrow = `${word.charAt(i)}${word.charAt(i + 1)}`;
       //parse the col#row# String into a char code Number
-      const char = parseCode(colrow);
+      const char = _parseCode(colrow);
       if (!char) return false; //if parseCode returns false on any letter then the whole word is false
-      output += decodeLetter(char);
+      output += _decodeLetter(char);
     }
     return output;
   }
 
+  //Helper function that transforms "{col}{row}" into the ascii char code it represents
+  function _parseCode(code, size = 5) {
+    //("col#row#",size) => col# + (row# - 1) * size = parsedChar
+    //("32",5) => 3 + (2-1)*5 = 3 + 1*5  = 3 + 5 = 8
+    const col = code.charAt(0) - 0;
+    const row = code.charAt(1) - 1;
+    if (col > size || row > size) return false;
+    let char = col + row * size;
+    //code "11" starts at "a"
+    //"a" code is 97, so if we parse to 1, we add 96 to start at 97
+    char += 96;
+    return char;
+  }
+
   //Maps each coded letter into a decoded letter
-  function decodeLetter(char) {
+  function _decodeLetter(char) {
     if (char < 97 || char > 122) return String.fromCharCode(char); //ignores anything that isn't a loewercase letter
     //if our char code is 105 ("i"), then just return "(i/j)"
     if (char === 105) return "(i/j)";
     //if our char code is in between i and z, we need to shift +1 to account for i and j being merged
     const shift = char > 105 && char < 123 ? 1 : 0;
     return String.fromCharCode(char + shift);
-  }
-
-  //Helper function that transforms "{col}{row}" into the ascii char code it represents
-  function parseCode(index, size = 5) {
-    //("col#row#",size) => col# + (row# - 1) * size = parsedChar
-    //("32",5) => 3 + (2-1)*5 = 3 + 1*5  = 3 + 5 = 8
-    const col = index.charAt(0) - 0;
-    const row = index.charAt(1) - 1;
-    if (col > size || row > size) return false;
-    let char = col + row * size;
-    //index "11" starts at "a"
-    //"a" code is 97, so if we parse to 1, we add 96 to start at 97
-    char += 96;
-    return char;
   }
 
   /*********************************************
