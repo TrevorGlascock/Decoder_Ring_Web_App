@@ -9,9 +9,14 @@ const polybiusModule = (function () {
    * * * * * *  MAIN * * * * * *
    ****************************/
   function polybius(input, encode = true) {
+    //Made two key matrices with developer functions instead of hardcoding the keys
+    const keys = {
+      alphaKey: _createKey("alpha"),
+      coordKey: _createKey("coord"),
+    };
     const output = input
       .split(" ")
-      .map((word) => _iterateWord(word, encode))
+      .map((word) => _iterateWord(word, encode, keys))
       .join(" ");
     //if any of our words resolved to boolean false, we need to return only false
     return output.includes(false) ? false : output;
@@ -21,9 +26,7 @@ const polybiusModule = (function () {
    * * * *  HELPER FUNCTIONS * * * *
    ********************************/
   //Helper function to handle iteration differences between encoding and decoding
-  function _iterateWord(word, encode) {
-    alphaKey = _createAlphaGrid();
-    coordKey = _createCoordGrid();
+  function _iterateWord(word, encode, { alphaKey, coordKey }) {
     /***********
      * ENCODING
      ***********/
@@ -67,38 +70,37 @@ const polybiusModule = (function () {
     return false; //if we don't find a match, return false
   }
 
-  /********************************************************************
-   * * * DEVELOPER FUNCTIONS TO CREATE ENCRYPTION/DECRYPTION KEYS * * *
-   ********************************************************************/
-  // Creates an index matrix of specified size
-  function _createCoordGrid(size = 5) {
-    //used this to print a number grid to help me understand the conversion and counting rows and columns
-    const grid = [];
-    for (let row = 0; row < size; row++) {
-      const thisRow = [];
-      //correct format is `${col}${row} where both start from 1 and end at 5
-      for (let col = 0; col < size; col++) thisRow.push(`${col + 1}${row + 1}`);
-      grid.push(thisRow);
-    }
-    return grid;
-  }
-  //creates an alpha matrix of the specified size
-  function _createAlphaGrid(size = 5) {
+  /*************************************************
+   * * * * * * *  DEVELOPER FUNCTIONS  * * * * * * *
+   * * * * TO CREATE ENCRYPTION KEY MATRICES * * * *
+   ************************************************/
+  function _createKey(type = "alpha", size = 5) {
+    //Creates a matrix of the specified type and size to use as an encryption key
     const grid = [];
     for (let row = 0; row < size; row++) {
       const thisRow = [];
       for (let col = 0; col < size; col++) {
-        let char = row * size + col + 97;
-        if (char === 105) thisRow.push("(i/j)");
-        else {
-          char += char > 105 ? 1 : 0;
-          thisRow.push(String.fromCharCode(char));
-        }
+        type === "alpha"
+          ? thisRow.push(_alphaIndex(row, col, size))
+          : thisRow.push(_coordIndex(row, col));
       }
       grid.push(thisRow);
     }
     return grid;
   }
+  //resolves row and col into a 1d numberline, then add 97 to make it charcode lowercase alpha
+  function _alphaIndex(row, col, size) {
+    const number = row * size + col; //row# * sizeOfMatrix + col# = numberline starting a 0
+    let charCode = number + 97; //Add 97 to start from charCode "a"
+    if (charCode === 105) return "(i/j)"; // i and j are merged
+    const shift = charCode > 105 ? 1 : 0; //if our letter comes after "i/j", shift by 1 to account for merge
+    return String.fromCharCode(charCode + shift);
+  }
+  //resolves row and col into `${col}${row}` where both start at 1 instead of zero
+  function _coordIndex(row, col) {
+    return `${col + 1}${row + 1}`;
+  }
+
   return {
     polybius,
   };
