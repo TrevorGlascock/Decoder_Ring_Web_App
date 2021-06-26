@@ -5,25 +5,25 @@
 
 const polybiusModule = (function () {
   // you can add any code you want within this function scope
-  /**************************************
-   * * * * * * * *  MAIN * * * * * * * *
-   **************************************/
-
+  /*****************************
+   * * * * * *  MAIN * * * * * *
+   ****************************/
   function polybius(input, encode = true) {
-    //console.log(createAlphaGrid(), createCoordGrid());
     const output = input
       .split(" ")
       .map((word) => _iterateWord(word, encode))
       .join(" ");
     //if any of our words resolved to boolean false, we need to return only false
     return output.includes(false) ? false : output;
-
-    //return encode ? encode(input) : decode(input);
   }
 
+  /*********************************
+   * * * *  HELPER FUNCTIONS * * * *
+   ********************************/
+  //Helper function to handle iteration differences between encoding and decoding
   function _iterateWord(word, encode) {
-    alphaKey = createAlphaGrid();
-    coordKey = createCoordGrid();
+    alphaKey = _createAlphaGrid();
+    coordKey = _createCoordGrid();
     /***********
      * ENCODING
      ***********/
@@ -49,14 +49,15 @@ const polybiusModule = (function () {
     return output;
   }
 
+  //Finds the coordinate on fromKey that matches the inputted character, and returns the value of toKey at the same coordinate
   function _mapMatrixTo(input, fromKey, toKey) {
-    const coordinate = _findCoordinate(input, fromKey);
-    if (!coordinate) return false; //if we don't find the input in our From key, then return false for invalid input
-    const row = coordinate[0];
-    const col = coordinate[1];
-    return toKey[row][col];
+    const coordinate = _findCoordinate(input, fromKey); //finds the matching coordinate in the fromKey
+    if (!coordinate) return false; //if we don't find a match in our fromKey, then return false for invalid input
+    const row = coordinate[0]; //row is first element
+    const col = coordinate[1]; //col is second element
+    return toKey[row][col]; //map it out baybee
   }
-
+  //essentially a 2D indexAt method that returns an array of the coordinates that match the input
   function _findCoordinate(input, key) {
     if (input === "i" || input === "j") input = "(i/j)"; //if input is i or j, then we treat it as (i/j)
     for (let row = 0; row < 5; row++)
@@ -66,14 +67,11 @@ const polybiusModule = (function () {
     return false; //if we don't find a match, return false
   }
 
-  function _decrypt(code, key) {
-    return "a";
-  }
   /********************************************************************
    * * * DEVELOPER FUNCTIONS TO CREATE ENCRYPTION/DECRYPTION KEYS * * *
    ********************************************************************/
   // Creates an index matrix of specified size
-  function createCoordGrid(size = 5) {
+  function _createCoordGrid(size = 5) {
     //used this to print a number grid to help me understand the conversion and counting rows and columns
     const grid = [];
     for (let row = 0; row < size; row++) {
@@ -84,8 +82,8 @@ const polybiusModule = (function () {
     }
     return grid;
   }
-
-  function createAlphaGrid(size = 5) {
+  //creates an alpha matrix of the specified size
+  function _createAlphaGrid(size = 5) {
     const grid = [];
     for (let row = 0; row < size; row++) {
       const thisRow = [];
