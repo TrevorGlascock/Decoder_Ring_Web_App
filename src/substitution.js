@@ -49,12 +49,10 @@ const substitutionModule = (function () {
     if (typeof alphabet !== "string" || alphabet.length !== 26) return false;
 
     //check for reused characters
-    let isUnique = true;
-    alphabet.split("").reduce((checkStr, char) => {
-      if (checkStr.includes(char)) isUnique = false;
-      return char;
-    }, "");
-    return isUnique;
+    for (let char of alphabet)
+      if (alphabet.indexOf(char) !== alphabet.lastIndexOf(char)) return false;
+
+    return true;
   }
 
   return {
