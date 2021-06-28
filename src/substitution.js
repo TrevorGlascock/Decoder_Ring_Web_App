@@ -5,9 +5,56 @@
 
 const substitutionModule = (function () {
   // you can add any code you want within this function scope
-
+  /*****************************
+   * * * * * *  MAIN * * * * * *
+   ****************************/
   function substitution(input, alphabet, encode = true) {
     // your solution code here
+    if (!_validAlphabet(alphabet)) return false;
+    const alphaKey = "abcdefghijklmnopqrstuvwxyz".split("");
+    const codeKey = alphabet.toLowerCase().split("");
+    const output = input
+      .toLowerCase() //ignore case
+      .split(" ") //seperate the string into an array of words
+      .map(
+        (word) =>
+          encode
+            ? iterateWord(word, alphaKey, codeKey) // if encoding, we're going from base alphabet to coded alphabet
+            : iterateWord(word, codeKey, alphaKey) // else, we're going from coded to base
+      )
+      .join(" ");
+    return output.includes(false) ? false : output;
+  }
+
+  /*********************************
+   * * * *  HELPER FUNCTIONS * * * *
+   ********************************/
+  function iterateWord(word, fromKey, toKey) {
+    return word
+      .split("")
+      .map((letter) => _mapTo(letter, fromKey, toKey))
+      .join("");
+  }
+
+  //Helper function that finds a provided character on the fromKey array, and maps the input to the same index on the toKey array
+  function _mapTo(input, fromKey, toKey) {
+    const index = fromKey.indexOf(input); //finds the index of the matching character in the fromKey
+    if (index === -1) return false; //if our alphabet doesn't contain that character, return false
+    return toKey[index]; //map it out baybee
+  }
+
+  //Helper function to ensure provided alphabet is valid
+  function _validAlphabet(alphabet) {
+    //Alphabet must be a string, and be exactly 26 characters long
+    if (typeof alphabet !== "string" || alphabet.length !== 26) return false;
+
+    //check for reused characters
+    let isUnique = true;
+    alphabet.split("").reduce((checkStr, char) => {
+      if (checkStr.includes(char)) isUnique = false;
+      return char;
+    }, "");
+    return isUnique;
   }
 
   return {
