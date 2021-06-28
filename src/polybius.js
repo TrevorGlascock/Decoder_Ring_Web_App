@@ -60,7 +60,7 @@ const polybiusModule = (function () {
     const col = coordinate[1]; //col is second element
     return toKey[row][col]; //map it out baybee
   }
-  //essentially a 2D indexAt method that returns an array of the coordinates that match the input
+  //essentially a 2D indexOf method that returns an array of the coordinates that match the input
   function _findCoordinate(input, key) {
     if (input === "i" || input === "j") input = "(i/j)"; //if input is i or j, then we treat it as (i/j)
     for (let row = 0; row < 5; row++)
