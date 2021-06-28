@@ -5,9 +5,32 @@
 
 const substitutionModule = (function () {
   // you can add any code you want within this function scope
-
+  /*****************************
+   * * * * * *  MAIN * * * * * *
+   ****************************/
   function substitution(input, alphabet, encode = true) {
     // your solution code here
+    if (!validAlphabet(alphabet)) return false;
+    const codeKey = alphabet.split("");
+    const alphaKey = "abcdeghijklmnopqrstuvwxyz".split("");
+    return input;
+  }
+
+  /*********************************
+   * * * *  HELPER FUNCTIONS * * * *
+   ********************************/
+  //Helper function to ensure provided alphabet is valid
+  function validAlphabet(alphabet) {
+    //Alphabet must be a string, and be exactly 26 characters long
+    if (typeof alphabet !== "string" || alphabet.length !== 26) return false;
+
+    //check for reused characters
+    let isUnique = true;
+    alphabet.split("").reduce((checkStr, char) => {
+      if (checkStr.includes(char)) isUnique = false;
+      return char;
+    }, "");
+    return isUnique;
   }
 
   return {
