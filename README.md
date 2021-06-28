@@ -1,6 +1,2 @@
-# Project_Decoder_Ring_1
-Currently a WIP!
-### TODO:
-- Write All algos for Substitution
-- Write All tests for Substitution
-- Once all algos and tests are done, refactor to make it more production ready
+# THIS IS A DEPRECRATED VERSION OF THE Caesar SOLUTION
+This version uses char code math to make conversions rather than using array indices. Ultimately the main difference is whether or not you start from 0, or 97, but I also find the index version to be much more readable than the complicated char-code math
