@@ -118,9 +118,9 @@ describe("Substitution Cypher", () => {
       expect(actual).to.be.false;
     });
 
-    it("should return false when correct length alphabet contains a repeated character", () => {
+    it("should return false when alphabet contains a repeated character", () => {
       const input = "this message should not be seen";
-      const alphabet = "aacdefghijklmnopqrstuvwxyz";
+      const alphabet = "abcdefghilllllopqrstuvwxyz";
       const actual = substitution(input, alphabet);
       expect(actual).to.be.false;
     });
