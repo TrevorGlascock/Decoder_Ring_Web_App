@@ -7,22 +7,91 @@ describe("Substitution Cypher", () => {
    * *  * * * * * * * ENCRYPTING * * * * * * * * * *
    *************************************************/
   describe("Encryption", () => {
-    it("when alphabet is normal, output is identical to input", () => {
-      const input = "This message is unencrypted";
+    it("encrypts single word correctly", () => {
+      const input = "hello";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const expected = "rmwwl";
+      const actual = substitution(input, alphabet);
+      expect(actual).to.be.equal(expected);
+    });
+    it("encrypts multiple words correctly", () => {
+      const input = "hello world my name is trevor";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const expected = "rmwwl ilhwq ae fxam ud jhmzlh";
+      const actual = substitution(input, alphabet);
+      expect(actual).to.be.equal(expected);
+    });
+    it("encrypts correctly regardless of case", () => {
+      const input = "HeLlO";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const expected = "rmwwl";
+      const actual = substitution(input, alphabet);
+      expect(actual).to.be.equal(expected);
+    });
+    it("encrypts correctly when substitution alphabet has special characters or numbers", () => {
+      const input = "hello";
+      const alphabet = "x1yq]cg*uks=af2nthdjp5ibev";
+      const expected = "*]==2";
+      const actual = substitution(input, alphabet);
+      expect(actual).to.be.equal(expected);
+    });
+    it("should return unaltered message when substitution alphabet matches the standard alphabet", () => {
+      const input = "unencrypted";
       const alphabet = "abcdefghijklmnopqrstuvwxyz";
       const actual = substitution(input, alphabet);
       expect(actual).to.be.equal(input);
+    });
+    it("should return false when trying to encrypt a letter not found in the standard alphabet", () => {
+      const input = "this message shouldn't be seen.";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const actual = substitution(input, alphabet);
+      expect(actual).to.be.false;
     });
   });
   /*************************************************
    * *  * * * * * * * DECRYPTING * * * * * * * * * *
    *************************************************/
   describe("Decryption", () => {
-    it("when alphabet is normal, output is identical to input", () => {
-      const input = "This message is unencrypted";
+    it("decrypts single word correctly", () => {
+      const input = "rmwwl";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const expected = "hello";
+      const actual = substitution(input, alphabet, false);
+      expect(actual).to.be.equal(expected);
+    });
+    it("decrypts multiple words correctly", () => {
+      const input = "rmwwl ilhwq ae fxam ud jhmzlh";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const expected = "hello world my name is trevor";
+      const actual = substitution(input, alphabet, false);
+      expect(actual).to.be.equal(expected);
+    });
+    it("decrypts correctly regardless of case", () => {
+      const input = "rMwWl";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const expected = "hello";
+      const actual = substitution(input, alphabet, false);
+      expect(actual).to.be.equal(expected);
+    });
+    it("decrypts correctly when input has special characters or numbers found on substitution alphabet", () => {
+      const input = "*]==2";
+      const alphabet = "x1yq]cg*uks=af2nthdjp5ibev";
+      const expected = "hello";
+      const actual = substitution(input, alphabet, false);
+      expect(actual).to.be.equal(expected);
+    });
+    it("should return unaltered message when substitution alphabet matches the standard alphabet", () => {
+      const input = "unencrypted";
       const alphabet = "abcdefghijklmnopqrstuvwxyz";
       const actual = substitution(input, alphabet, false);
       expect(actual).to.be.equal(input);
+    });
+
+    it("should return false when trying to decrypt a letter not found in the substitution alphabet", () => {
+      const input = "this message shouldn't be seen.";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const actual = substitution(input, alphabet, false);
+      expect(actual).to.be.false;
     });
   });
   /**************************************************
@@ -30,27 +99,27 @@ describe("Substitution Cypher", () => {
    **************************************************/
   describe("Invalid Alphabet Errors", () => {
     it("should return false when alphabet is not provided", () => {
-      const input = "This message shouldn't be seen.";
+      const input = "this message should not be seen";
       const actual = substitution(input);
       expect(actual).to.be.false;
     });
 
     it("should return false when alphabet length is less than 26", () => {
-      const input = "This message shouldn't be seen.";
+      const input = "this message should not be seen";
       const alphabet = "abc";
       const actual = substitution(input, alphabet);
       expect(actual).to.be.false;
     });
 
     it("should return false when alphabet length is more than 26", () => {
-      const input = "This message shouldn't be seen.";
+      const input = "this message should not be seen";
       const alphabet = "abcdefghijklmnopqrstuvwxyz123456789";
       const actual = substitution(input, alphabet);
       expect(actual).to.be.false;
     });
 
     it("should return false when correct length alphabet contains a repeated character", () => {
-      const input = "This message shouldn't be seen.";
+      const input = "this message should not be seen";
       const alphabet = "aacdefghijklmnopqrstuvwxyz";
       const actual = substitution(input, alphabet);
       expect(actual).to.be.false;
