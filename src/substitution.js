@@ -15,25 +15,26 @@ const substitutionModule = (function () {
     const codeKey = alphabet.toLowerCase().split("");
     const output = input
       .toLowerCase() //ignore case
-      .split(" ") //seperate the string into an array of words
+      .split(" ") //seperate the input string into an array of words
       .map(
         (word) =>
           encode
             ? iterateWord(word, alphaKey, codeKey) // if encoding, we're going from base alphabet to coded alphabet
             : iterateWord(word, codeKey, alphaKey) // else, we're going from coded to base
       )
-      .join(" ");
-    return output.includes(false) ? false : output;
+      .join(" "); //join the array of words back into an output string
+    return output.includes(false) ? false : output; //if any of our letters resolved to false, return false
   }
 
   /*********************************
    * * * *  HELPER FUNCTIONS * * * *
    ********************************/
+  //Helper function to iterate by word, ensuring spaces are preserved
   function iterateWord(word, fromKey, toKey) {
     return word
-      .split("")
-      .map((letter) => _mapTo(letter, fromKey, toKey))
-      .join("");
+      .split("") //seperate the word string into an array of latters
+      .map((letter) => _mapTo(letter, fromKey, toKey)) //** This is where the magic happens baybee **//
+      .join(""); //join the array of letters back into a word string
   }
 
   //Helper function that finds a provided character on the fromKey array, and maps the input to the same index on the toKey array
