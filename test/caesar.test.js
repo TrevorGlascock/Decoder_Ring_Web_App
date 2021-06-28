@@ -10,7 +10,7 @@ describe("Caesar Shift", () => {
     /*******************
      * POSITIVE SHIFTING
      ********************/
-    describe("positive shift", () => {
+    describe("Positive Shift", () => {
       it("encrypts single word correctly", () => {
         const input = "thinkful";
         const shift = 3;
@@ -39,7 +39,7 @@ describe("Caesar Shift", () => {
     /*******************
      * NEGATIVE SHIFTING
      *******************/
-    describe("negative shift", () => {
+    describe("Negative Shift", () => {
       it("encrypts single word correctly", () => {
         const input = "thinkful";
         const shift = -3;
@@ -73,7 +73,7 @@ describe("Caesar Shift", () => {
     /*******************
      * POSITIVE SHIFTING
      ********************/
-    describe("positive shift", () => {
+    describe("Positive Shift", () => {
       it("decrypts single word correctly", () => {
         const input = "wklqnixo";
         const shift = 3;
@@ -102,7 +102,7 @@ describe("Caesar Shift", () => {
     /*******************
      * NEGATIVE SHIFTING
      *******************/
-    describe("negative shift", () => {
+    describe("Negative Shift", () => {
       it("decrypts single word correctly", () => {
         const input = "qefkhcri";
         const shift = -3;
@@ -132,8 +132,8 @@ describe("Caesar Shift", () => {
   /****************************
    * FRINGE CASE INPUT TESTS
    ****************************/
-  describe("encryptions aren't broken with fringe cases:", () => {
-    it("shloud return a lowercase encryption, regardless of input case", () => {
+  describe("Fringe Case Tests", () => {
+    it("should return a lowercase encryption, regardless of input case", () => {
       const input = "TReVoR Is ThE NaME";
       const shift = 2;
       const expected = "vtgxqt ku vjg pcog";
