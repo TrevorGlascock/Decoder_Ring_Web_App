@@ -5,125 +5,100 @@
 
 const polybiusModule = (function () {
   // you can add any code you want within this function scope
-  /**************************************
-   * * * * * * * *  MAIN * * * * * * * *
-   **************************************/
+  /*****************************
+   * * * * * *  MAIN * * * * * *
+   ****************************/
   function polybius(input, encode = true) {
+    //Made two key matrices with developer functions instead of hardcoding the keys
+    const keys = {
+      alphaKey: _createKey("alpha"),
+      coordKey: _createKey("coord"),
+    };
     const output = input
       .split(" ")
-      .map((word) => (encode ? encodeWord(word) : decodeWord(word)))
+      .map((word) => _iterateWord(word, encode, keys))
       .join(" ");
-    //if any of our words resolved to boolean false, we need to return only false
+    //if any of our letters resolved to boolean false, we need to return only false
     return output.includes(false) ? false : output;
-
-    //return encode ? encode(input) : decode(input);
   }
 
-  /*****************************************
-   * * * * * * * *  ENCODING * * * * * * * *
-   *****************************************/
-  //Map each word into a coded word
-  function encodeWord(word) {
-    return word
-      .split("")
-      .map((letter) => encodeLetter(letter))
-      .join("");
-  }
-  //Encode a letter into a polybius code
-  function encodeLetter(char) {
-    char = char.toLowerCase(); //convert to lowercase
-    if (!char.match(/[a-z]/)) return false; //error catch for anything other than letters
-    char = char.charCodeAt(char); //grab the ascii code
-    if (char === 105) return "42"; //if our char code is 105 ("i"), then just return "42"
-    //const shift = char > 104 ? 1 : 0; //if our char code is in between i and z, we need to shift +1 to account for i and j being merged
-    return parseLetter(char - 96); //"a" would be 1, so we subtract 96
-  }
-  //Helper function that transforms sequential numbers into "{col}{row}" matrix format of specified size
-  function parseLetter(number, size = 5) {
-    //(number,size) => "col#row#"
-    //(8,5)=> "32" (aka "h") || Need to figure out the row, and the column
-    if (number > 8) number--; //if we're at a letter after i, we need to shift left 1
-    const row = convertRow(number);
-    const col = convertCollumn(number);
-    return `${col}${row}`;
-  }
+  /*********************************
+   * * * *  HELPER FUNCTIONS * * * *
+   ********************************/
+  //Helper function to handle iteration differences between encoding and decoding
+  function _iterateWord(word, encode, { alphaKey, coordKey }) {
+    /***********
+     * ENCODING
+     ***********/
+    if (encode)
+      return word
+        .toLowerCase()
+        .split("")
+        .map((letter) => _mapMatrixTo(letter, alphaKey, coordKey))
+        .join("");
 
-  //converts a number into a corresponding row
-  function convertRow(number, size = 5) {
-    // number divided by matrix size rounded up is the row number
-    number = Math.ceil(number / size);
-    return number;
-  }
-
-  //converts a number into a corresponding column
-  function convertCollumn(number, size = 5) {
-    //while number is greater than matrix size, subtract matrix size from the number
-    while (number > size) number -= size;
-    return number;
-  }
-
-  /*****************************************
-   * * * * * * * *  DECODING * * * * * * * *
-   *****************************************/
-  //Maps each coded word into a decoded word
-  function decodeWord(word) {
+    /***********
+     * DECODING
+     ***********/
+    if (word.length % 2 !== 0) return false; //if we're decoding an odd-length word, the output is false
+    //iterate by each code, which is composed of 2 characters
     let output = "";
-    //if our word isn't even in length we need to return false
-    if (word.length % 2) return false;
-    //iterate by 2 through the coded string
-    for (let i = 0; i < word.length; i += 2) {
-      //[i]is collumn, [i+1] is row
-      const colrow = `${word.charAt(i)}${word.charAt(i + 1)}`;
-      //parse the col#row# String into a char code Number
-      const char = parseCode(colrow);
-      if (!char) return false; //if parseCode returns false on any letter then the whole word is false
-      output += decodeLetter(char);
+    for (let char = 0; char < word.length; char += 2) {
+      const col = word[char];
+      const row = word[char + 1];
+      const code = `${col}${row}`;
+      output += _mapMatrixTo(code, coordKey, alphaKey);
     }
     return output;
   }
 
-  //Maps each coded letter into a decoded letter
-  function decodeLetter(char) {
-    if (char < 97 || char > 122) return String.fromCharCode(char); //ignores anything that isn't a loewercase letter
-    //if our char code is 105 ("i"), then just return "(i/j)"
-    if (char === 105) return "(i/j)";
-    //if our char code is in between i and z, we need to shift +1 to account for i and j being merged
-    const shift = char > 105 && char < 123 ? 1 : 0;
-    return String.fromCharCode(char + shift);
+  //Finds the coordinate on fromKey that matches the inputted character, and returns the value of toKey at the same coordinate
+  function _mapMatrixTo(input, fromKey, toKey) {
+    const coordinate = _findCoordinate(input, fromKey); //finds the matching coordinate in the fromKey
+    if (!coordinate) return false; //if we don't find a match in our fromKey, then return false for invalid input
+    const row = coordinate[0]; //row is first element
+    const col = coordinate[1]; //col is second element
+    return toKey[row][col]; //map it out baybee
+  }
+  //essentially a 2D indexOf method that returns an array of the coordinates that match the input
+  function _findCoordinate(input, key) {
+    if (input === "i" || input === "j") input = "(i/j)"; //if input is i or j, then we treat it as (i/j)
+    for (let row = 0; row < 5; row++)
+      for (let col = 0; col < 5; col++) {
+        if (key[row][col] === input) return [row, col]; //
+      }
+    return false; //if we don't find a match, return false
   }
 
-  //Helper function that transforms "{col}{row}" into the ascii char code it represents
-  function parseCode(index, size = 5) {
-    //("col#row#",size) => col# + (row# - 1) * size = parsedChar
-    //("32",5) => 3 + (2-1)*5 = 3 + 1*5  = 3 + 5 = 8
-    const col = index.charAt(0) - 0;
-    const row = index.charAt(1) - 1;
-    if (col > size || row > size) return false;
-    let char = col + row * size;
-    //index "11" starts at "a"
-    //"a" code is 97, so if we parse to 1, we add 96 to start at 97
-    char += 96;
-    return char;
-  }
-
-  /*********************************************
-   * * * UNCALLED DEVELOPER TEST FUNCTIONS * * *
-   *********************************************/
-  // Creates an index matrix of specified size
-  function createIndexGrid(size = 5) {
-    //used this to print a number grid to help me understand the conversion and counting rows and columns
+  /*************************************************
+   * * * * * * *  DEVELOPER FUNCTIONS  * * * * * * *
+   * * * * TO CREATE ENCRYPTION KEY MATRICES * * * *
+   ************************************************/
+  function _createKey(type = "alpha", size = 5) {
+    //Creates a matrix of the specified type and size to use as an encryption key
     const grid = [];
     for (let row = 0; row < size; row++) {
       const thisRow = [];
-      //correct format is `${col}${row} where both start from 1 and end at 5
-      for (let col = 0; col < size; col++) thisRow.push(`${col + 1}${row + 1}`);
+      for (let col = 0; col < size; col++) {
+        type === "alpha"
+          ? thisRow.push(_alphaIndex(row, col, size))
+          : thisRow.push(_coordIndex(row, col));
+      }
       grid.push(thisRow);
     }
     return grid;
   }
-  //maps each index in a matrix to a decoded letter -- used this to decode a matrix of coordinates
-  function mapIndexToLetter(matrix) {
-    return matrix.map((rows) => rows.map((index) => decodeLetter(index)));
+  //resolves row and col into a 1d numberline, then add 97 to make it charcode lowercase alpha
+  function _alphaIndex(row, col, size) {
+    const number = row * size + col; //row# * sizeOfMatrix + col# = numberline starting a 0
+    let charCode = number + 97; //Add 97 to start from charCode "a"
+    if (charCode === 105) return "(i/j)"; // i and j are merged
+    const shift = charCode > 105 ? 1 : 0; //if our letter comes after "i/j", shift by 1 to account for merge
+    return String.fromCharCode(charCode + shift);
+  }
+  //resolves row and col into `${col}${row}` where both start at 1 instead of zero
+  function _coordIndex(row, col) {
+    return `${col + 1}${row + 1}`;
   }
 
   return {
