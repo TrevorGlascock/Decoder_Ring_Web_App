@@ -10,17 +10,27 @@ const substitutionModule = (function () {
    ****************************/
   function substitution(input, alphabet, encode = true) {
     // your solution code here
-    if (!validAlphabet(alphabet)) return false;
-    const codeKey = alphabet.split("");
+    if (!_validAlphabet(alphabet)) return false;
+    const codeKey = alphabet.toLowerCase().split("");
     const alphaKey = "abcdeghijklmnopqrstuvwxyz".split("");
-    return input;
+    return input
+      .toLowerCase() //ignore case
+      .split(" ") //seperate the string into an array of words
+      .split(""); //seperate each word into array of characters.
   }
 
   /*********************************
    * * * *  HELPER FUNCTIONS * * * *
    ********************************/
+  //Helper function that finds a provided character on the fromKey array, and maps the input to the same index on the toKey array
+  function _mapTo(input, fromKey, toKey) {
+    const index = fromKey.indexOf(input); //finds the index of the matching character in the fromKey
+    if (!indexedDB) return false; //if our alphabet doesn't contain that character, return false
+    return toKey[index]; //map it out baybee
+  }
+
   //Helper function to ensure provided alphabet is valid
-  function validAlphabet(alphabet) {
+  function _validAlphabet(alphabet) {
     //Alphabet must be a string, and be exactly 26 characters long
     if (typeof alphabet !== "string" || alphabet.length !== 26) return false;
 
