@@ -20,7 +20,7 @@ const polybiusModule = (function () {
         .map((word) => _iterateWord(word, encode, keys))
         .join(" ");
     } catch (error) {
-      console.log(`${error}`); //print the error to our console for debugging
+      //console.log(`${error}`); //uncomment to print the error to our console for debugging
       return false; //if any of our words throw an error, we return false
     }
   }
