@@ -20,7 +20,7 @@ const polybiusModule = (function () {
         .map((word) => _iterateWord(word, encode, keys))
         .join(" ");
     } catch (error) {
-      console.log(`${error}`);
+      console.log(`${error}`); //print the error to our console for debugging
       return false; //if any of our words throw an error, we return false
     }
   }
@@ -43,7 +43,10 @@ const polybiusModule = (function () {
     /***********
      * DECODING
      ***********/
-    if (word.length % 2 !== 0) throw new Error(); //if we're decoding an odd-length word, the output is false
+    if (word.length % 2 !== 0)
+      throw new Error(
+        `Polybius coordinates come in pairs.\nIgnoring spaces, you cannot decrypt with an odd numbered total!`
+      ); //if we're decoding an odd-length word, the output is false
     //iterate by each code, which is composed of 2 characters
     let output = "";
     for (let char = 0; char < word.length; char += 2) {
@@ -58,7 +61,8 @@ const polybiusModule = (function () {
   //Finds the coordinate on fromKey that matches the inputted character, and returns the value of toKey at the same coordinate
   function _mapMatrixTo(input, fromKey, toKey) {
     const coordinate = _findCoordinate(input, fromKey); //finds the matching coordinate in the fromKey
-    if (!coordinate) throw new Error(); //if we don't find a match in our fromKey, then return false for invalid input
+    if (!coordinate)
+      throw new Error(`"${input}" is not a valid input!`); //if we don't find a match in our fromKey, then return false for invalid input
     const row = coordinate[0]; //row is first element
     const col = coordinate[1]; //col is second element
     return toKey[row][col]; //map it out baybee
@@ -70,7 +74,7 @@ const polybiusModule = (function () {
       for (let col = 0; col < 5; col++) {
         if (key[row][col] === input) return [row, col]; //
       }
-    throw new Error(); //if we don't find a match, return false
+    return false; //if we don't find a match, return false
   }
 
   /*************************************************
