@@ -32,10 +32,16 @@ describe("Polybius Square", () => {
       const actual = polybius(input);
       expect(actual).to.be.equal(expected);
     });
-    it("returns false when attempting to encrypt anything other than letters and spaces", () => {
+    it("should return false when attempting to encrypt anything other than letters and spaces", () => {
       const input = "2222";
       const actual = polybius(input);
       expect(actual).to.be.false;
+    });
+    it("should return correct encryption, even if input contains the word 'false'", () => {
+      const input = "no false tests";
+      const expected = "3343 1211133451 4451344434";
+      const actual = polybius(input);
+      expect(actual).to.be.equal(expected);
     });
   });
   /**************************************************
@@ -60,20 +66,26 @@ describe("Polybius Square", () => {
       const actual = polybius(input, false);
       expect(actual).to.be.equal(expected);
     });
-    it("returns false when decrypting a message of odd length", () => {
+    it("should return false when decrypting a message of odd length", () => {
       const input = "443242335212541";
       const actual = polybius(input, false);
       expect(actual).to.be.false;
     });
-    it("returns false when decrypting multiple words with at least one being of an odd length", () => {
+    it("should return false when decrypting multiple words with at least one being of an odd length", () => {
       const input = "3251131343 443242335212541 2543241341 ";
       const actual = polybius(input, false);
       expect(actual).to.be.false;
     });
-    it("returns false when given invalid codes", () => {
+    it("should return false when given invalid codes", () => {
       const input = "66778899";
       const actual = polybius(input, false);
       expect(actual).to.be.false;
+    });
+    it("should return correct decryption, even if it contains the word 'false'", () => {
+      const input = "3343 1211133451 4451344434";
+      const expected = "no false tests";
+      const actual = polybius(input, false);
+      expect(actual).to.be.equal(expected);
     });
   });
 });

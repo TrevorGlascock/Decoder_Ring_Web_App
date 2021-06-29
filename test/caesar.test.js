@@ -6,12 +6,12 @@ describe("Caesar Shift", () => {
   /**************************************************
    * *  * * * * * * * ENCRYPTION  * * * * * * * * * *
    **************************************************/
-  describe("Encryptions", () => {
+  describe("Encryption", () => {
     /*******************
      * POSITIVE SHIFTING
      ********************/
-    describe("positive shift", () => {
-      it("correct encryption for single word", () => {
+    describe("Positive Shift", () => {
+      it("encrypts single word correctly", () => {
         const input = "thinkful";
         const shift = 3;
         const expected = "wklqnixo";
@@ -19,7 +19,7 @@ describe("Caesar Shift", () => {
         expect(actual).to.be.equal(expected);
       });
 
-      it("correct encryption for multiple words", () => {
+      it("encrypts multiple words correctly", () => {
         const input = "trevor is the name";
         const shift = 2;
         const expected = "vtgxqt ku vjg pcog";
@@ -27,7 +27,7 @@ describe("Caesar Shift", () => {
         expect(actual).to.be.equal(expected);
       });
 
-      it("correct encryption when wraping around the alphabet", () => {
+      it("encrypts correctly when shift requires wraping around the alphabet", () => {
         const input = "xylophone has lots of letters near z";
         const shift = 13;
         const expected = "klybcubar unf ybgf bs yrggref arne m";
@@ -39,8 +39,8 @@ describe("Caesar Shift", () => {
     /*******************
      * NEGATIVE SHIFTING
      *******************/
-    describe("negative shift", () => {
-      it("correct encryption for single word", () => {
+    describe("Negative Shift", () => {
+      it("encrypts single word correctly", () => {
         const input = "thinkful";
         const shift = -3;
         const expected = "qefkhcri";
@@ -48,7 +48,7 @@ describe("Caesar Shift", () => {
         expect(actual).to.be.equal(expected);
       });
 
-      it("correct encryption for multiple words", () => {
+      it("encrypts multiple words correctly", () => {
         const input = "trevor is the name";
         const shift = -1;
         const expected = "sqdunq hr sgd mzld";
@@ -56,7 +56,7 @@ describe("Caesar Shift", () => {
         expect(actual).to.be.equal(expected);
       });
 
-      it("correct encryption when wraping around the alphabet", () => {
+      it("encrypts correctly when shift requires wraping around the alphabet", () => {
         const input = "granny smith apples has lots of letters near a";
         const shift = -8;
         const expected = "yjsffq kealz shhdwk zsk dglk gx dwllwjk fwsj s";
@@ -69,12 +69,12 @@ describe("Caesar Shift", () => {
   /**************************************************
    * *  * * * * * * * DECRYPTION  * * * * * * * * * *
    **************************************************/
-  describe("Decryptions", () => {
+  describe("Decryption", () => {
     /*******************
      * POSITIVE SHIFTING
      ********************/
-    describe("positive shift", () => {
-      it("correct decryption for single word", () => {
+    describe("Positive Shift", () => {
+      it("decrypts single word correctly", () => {
         const input = "wklqnixo";
         const shift = 3;
         const expected = "thinkful";
@@ -82,7 +82,7 @@ describe("Caesar Shift", () => {
         expect(actual).to.be.equal(expected);
       });
 
-      it("correct decryption for multiple words", () => {
+      it("decrypts multiple words correctly", () => {
         const input = "vtgxqt ku vjg pcog";
         const shift = 2;
         const expected = "trevor is the name";
@@ -90,7 +90,7 @@ describe("Caesar Shift", () => {
         expect(actual).to.be.equal(expected);
       });
 
-      it("correct decryption when wraping around the alphabet", () => {
+      it("decrypts correctly when shift requires wraping around the alphabet", () => {
         const input = "klybcubar unf ybgf bs yrggref arne m";
         const shift = 13;
         const expected = "xylophone has lots of letters near z";
@@ -102,8 +102,8 @@ describe("Caesar Shift", () => {
     /*******************
      * NEGATIVE SHIFTING
      *******************/
-    describe("negative shift", () => {
-      it("correct decryption for single word", () => {
+    describe("Negative Shift", () => {
+      it("decrypts single word correctly", () => {
         const input = "qefkhcri";
         const shift = -3;
         const expected = "thinkful";
@@ -111,7 +111,7 @@ describe("Caesar Shift", () => {
         expect(actual).to.be.equal(expected);
       });
 
-      it("correct decryption for multiple words", () => {
+      it("decrypts multiple words correctly", () => {
         const input = "sqdunq hr sgd mzld";
         const shift = -1;
         const expected = "trevor is the name";
@@ -119,7 +119,7 @@ describe("Caesar Shift", () => {
         expect(actual).to.be.equal(expected);
       });
 
-      it("correct decryption when wraping around the alphabet", () => {
+      it("decrypts correctly when shift requires wraping around the alphabet", () => {
         const input = "yjsffq kealz shhdwk zsk dglk gx dwllwjk fwsj s";
         const shift = -8;
         const expected = "granny smith apples has lots of letters near a";
@@ -132,8 +132,8 @@ describe("Caesar Shift", () => {
   /****************************
    * FRINGE CASE INPUT TESTS
    ****************************/
-  describe("encryptions aren't broken with fringe cases:", () => {
-    it("returns a lowercase encryption, regardless of input case", () => {
+  describe("Fringe Case Tests", () => {
+    it("should return a lowercase encryption, regardless of input case", () => {
       const input = "TReVoR Is ThE NaME";
       const shift = 2;
       const expected = "vtgxqt ku vjg pcog";
@@ -141,7 +141,7 @@ describe("Caesar Shift", () => {
       expect(actual).to.be.equal(expected);
     });
 
-    it("returns a correct encryption even when provided with non-letters", () => {
+    it("should return a correct encryption when provided with non-letters", () => {
       const input = "i'd rate carl's sandwich: 8/10";
       const shift = 2;
       const expected = "k'f tcvg ectn'u ucpfykej: 8/10";
@@ -149,14 +149,14 @@ describe("Caesar Shift", () => {
       expect(actual).to.be.equal(expected);
     });
 
-    it("returns an unencrypted message when all of the input is non-letters", () => {
+    it("should return an unencrypted message when all of the input is non-letters", () => {
       const input = "'23 '/>? 6 87 / - -";
       const shift = 7;
       const expected = input;
       const actual = caesar(input, shift);
       expect(actual).to.be.equal(expected);
     });
-    it("returns an unencrypted message when all of the input is extended ASCII", () => {
+    it("should return an unencrypted message when all of the input is extended ASCII", () => {
       const input = "これはａｓｃｉｉじゃない";
       const shift = 7;
       const expected = input;
@@ -168,22 +168,22 @@ describe("Caesar Shift", () => {
   /**************************************
    * FALSE RETURN ON INVALID SHIFT TESTS
    **************************************/
-  describe("returns false when given invalid shifts: ", () => {
-    it("returns false when shift is 0", () => {
+  describe("Invalid Shift Errors", () => {
+    it("should return false when shift is 0", () => {
       const input = "This message won't be seen.";
       const shift = 0;
       const actual = caesar(input, shift);
       expect(actual).to.be.false;
     });
 
-    it("returns false when shift is less than -25", () => {
+    it("should return false when shift is less than -25", () => {
       const input = "This message won't be seen.";
       const shift = -6969;
       const actual = caesar(input, shift);
       expect(actual).to.be.false;
     });
 
-    it("returns false when shift is greater than 25", () => {
+    it("should return false when shift is greater than 25", () => {
       const input = "This message won't be seen.";
       const shift = 52;
       const actual = caesar(input, shift);
