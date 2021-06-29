@@ -131,5 +131,12 @@ describe("Substitution Cypher", () => {
       const actual = substitution(input, alphabet);
       expect(actual).to.be.equal(expected);
     });
+    it("should still return a correctly decrypted message when it contains the word 'false'", () => {
+      const input = "fl cxwdm jmdjd";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const expected = "no false tests";
+      const actual = substitution(input, alphabet, false);
+      expect(actual).to.be.equal(expected);
+    });
   });
 });
