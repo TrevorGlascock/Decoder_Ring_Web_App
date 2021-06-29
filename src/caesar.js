@@ -26,13 +26,8 @@ const caesarModule = (function () {
     if (!character.match(/[a-z]/)) return character; //if the current character isn't a letter, we aren't transforming it
 
     let index = key.indexOf(character); //find index number from key array
-    let indexShift = index + shift; //the new index
-
-    //Using while allows our code to work for any shift number if the client decided to 86 the shift error restriction
-    while (indexShift > 25) indexShift -= 26; //wrap array OoB on right side
-    while (indexShift < 0) indexShift += 26; //wrap array OoB on left side
-
-    return key[indexShift];
+    let shifted = (((index + shift) % 26) + 26) % 26; //remainder of index plus shift plus the remainder of that plus 26
+    return key[shifted];
   }
 
   return {
