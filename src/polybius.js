@@ -19,9 +19,9 @@ const polybiusModule = (function () {
         .split(" ")
         .map((word) => _iterateWord(word, encode, keys))
         .join(" ");
-    } catch {
-      //if any of our words throw an error, we return false
-      return false;
+    } catch (error) {
+      console.log(`${error}`);
+      return false; //if any of our words throw an error, we return false
     }
   }
 
