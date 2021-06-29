@@ -25,7 +25,7 @@ const substitutionModule = (function () {
         )
         .join(" "); //join the array of words back into an output string
     } catch (error) {
-      console.log(`${error}`); //print the error to our console for debugging
+      //console.log(`${error}`); //uncomment to print the error to our console for debugging
       return false; //if any words throw an error, return false
     }
   }
