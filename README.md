@@ -1,5 +1,6 @@
 # Project_Decoder_Ring_1
-Currently a WIP!
+All Tests currently pass both locally and in qualified!
 ### TODO:
-- Ensure the tests past in Qualified, and not just pass my own tests
 - Refactor for readability
+- Improve comments
+- Improve on the new Error-Catch structure to deliver more detailed error logs.
