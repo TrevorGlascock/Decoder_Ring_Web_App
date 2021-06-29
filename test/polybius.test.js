@@ -40,7 +40,7 @@ describe("Polybius Square", () => {
     it("should return correct encryption, even if input contains the word 'false'", () => {
       const input = "no false tests";
       const expected = "3343 1211133451 4451344434";
-      const actual = polybius(input, false);
+      const actual = polybius(input);
       expect(actual).to.be.equal(expected);
     });
   });

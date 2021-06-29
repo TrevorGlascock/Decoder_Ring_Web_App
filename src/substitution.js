@@ -23,7 +23,7 @@ const substitutionModule = (function () {
             : iterateWord(word, codeKey, alphaKey) // else, we're going from coded to base
       )
       .join(" "); //join the array of words back into an output string
-    return output.includes(false) ? false : output; //if any of our letters resolved to false, return false
+    return output.includes(Boolean(false)) ? false : output; //if any of our letters threw an error, return false
   }
 
   /*********************************

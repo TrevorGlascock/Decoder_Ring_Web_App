@@ -126,8 +126,8 @@ describe("Substitution Cypher", () => {
     });
     it("should still return a correctly encrypted message when input contains the word 'false'", () => {
       const input = "no false tests";
-      const alphabet = "fl cxwdm jmdjd";
-      const expected = "im ql flj cxwduce jmdjd";
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const expected = "fl cxwdm jmdjd";
       const actual = substitution(input, alphabet);
       expect(actual).to.be.equal(expected);
     });
