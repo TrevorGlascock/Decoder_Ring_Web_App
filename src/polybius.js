@@ -15,6 +15,7 @@ const polybiusModule = (function () {
       coordKey: _createKey("coord"),
     };
     try {
+      if (!input.length) throw new Error(`Input cannot be empty!`);
       return input
         .split(" ")
         .map((word) => _iterateWord(word, encode, keys))
