@@ -104,6 +104,18 @@ describe("Substitution Cypher", () => {
       expect(actual).to.be.false;
     });
 
+    it("should return false when valid alphabet is provided, but input is not provided", () => {
+      const alphabet = "xoyqmcgrukswaflnthdjpzibev";
+      const actual = substitution(undefined, alphabet);
+      expect(actual).to.be.false;
+    });
+
+    it("should return false when no arguements are passed", () => {
+      const input = "this message should not be seen";
+      const actual = substitution();
+      expect(actual).to.be.false;
+    });
+
     it("should return false when alphabet length is less than 26", () => {
       const input = "this message should not be seen";
       const alphabet = "abc";
@@ -124,6 +136,7 @@ describe("Substitution Cypher", () => {
       const actual = substitution(input, alphabet);
       expect(actual).to.be.false;
     });
+
     it("should still return a correctly encrypted message when input contains the word 'false'", () => {
       const input = "no false tests";
       const alphabet = "xoyqmcgrukswaflnthdjpzibev";
@@ -131,6 +144,7 @@ describe("Substitution Cypher", () => {
       const actual = substitution(input, alphabet);
       expect(actual).to.be.equal(expected);
     });
+
     it("should still return a correctly decrypted message when it contains the word 'false'", () => {
       const input = "fl cxwdm jmdjd";
       const alphabet = "xoyqmcgrukswaflnthdjpzibev";
