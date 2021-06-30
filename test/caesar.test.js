@@ -163,6 +163,11 @@ describe("Caesar Shift", () => {
       const actual = caesar(input, shift);
       expect(actual).to.be.equal(expected);
     });
+    it("should return false when shift is valid but input is not provided", () => {
+      const shift = 7;
+      const actual = caesar(undefined, shift);
+      expect(actual).to.be.false;
+    });
   });
 
   /**************************************

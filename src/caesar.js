@@ -5,18 +5,24 @@
 
 const caesarModule = (function () {
   // you can add any code you want within this function scope
-
   function caesar(input, shift, encode = true) {
-    if (!shift || shift < -25 || shift > 25) return false; // valid shift checking
-    if (typeof input !== "string") return false; // valid input checking
+    try {
+      if (!shift || shift < -25 || shift > 25)
+        throw new Error(`Shift must be defined and be between -25 and 25`); // valid shift checking
+      if (typeof input !== "string")
+        throw new Error(`Input provided must be a defined`); // valid input checking
 
-    shift *= encode ? 1 : -1; //if we are decoding, we need to shift in the opposite direction
+      shift *= encode ? 1 : -1; //if we are decoding, we need to shift in the opposite direction
 
-    return input //iterate through the input string and map our shifted characters
-      .toLowerCase()
-      .split("")
-      .map((character) => _shifter(character, shift))
-      .join("");
+      return input //iterate through the input string and map our shifted characters
+        .toLowerCase()
+        .split("")
+        .map((character) => _shifter(character, shift))
+        .join("");
+    } catch (error) {
+      //console.log(`${error}`); //uncomment to print the error to our console for debugging
+      return false; //if we throw an error, we return false
+    }
   }
 
   //Helper function that preforms the actual mathematical algorithm
