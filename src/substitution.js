@@ -36,7 +36,7 @@ const substitutionModule = (function () {
   //Helper function to iterate by word, ensuring spaces are preserved
   function iterateWord(word, fromKey, toKey) {
     return word
-      .split("") //seperate the word string into an array of latters
+      .split("") //seperate the word string into an array of letters
       .map((letter) => _mapTo(letter, fromKey, toKey)) //** This is where the magic happens baybee **//
       .join(""); //join the array of letters back into a word string
   }
