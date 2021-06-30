@@ -61,8 +61,7 @@ const polybiusModule = (function () {
   //Finds the coordinate on fromKey that matches the inputted character, and returns the value of toKey at the same coordinate
   function _mapMatrixTo(input, fromKey, toKey) {
     const coordinate = _findCoordinate(input, fromKey); //finds the matching coordinate in the fromKey
-    if (!coordinate)
-      throw new Error(`"${input}" is not a valid input!`); //if we don't find a match in our fromKey, then return false for invalid input
+    if (!coordinate) throw new Error(`"${input}" is not a valid input!`); //if we don't find a match in our fromKey, then return false for invalid input
     const row = coordinate[0]; //row is first element
     const col = coordinate[1]; //col is second element
     return toKey[row][col]; //map it out baybee
