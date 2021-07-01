@@ -137,6 +137,21 @@ describe("Substitution Cypher", () => {
       expect(actual).to.be.false;
     });
 
+    it("should return false when alphabet is not a string", () => {
+      const input = "this message should not be seen";
+      const alphabet = 2021;
+      const actual = substitution(input, alphabet);
+      expect(actual).to.be.false;
+    });
+
+    it("Should return false when alphabet has 26 unique characters, but contains additional repeated characters", () => {
+      const input = "fl cxwdm jmdjd";
+      const alphabet =
+        "aaaaaaaaaaaaaaabcdefghijklmnopqrstuvwxyzzzzzzzzzzzzzzzzzz";
+      const actual = substitution(input, alphabet);
+      expect(actual).to.be.false;
+    });
+
     it("should still return a correctly encrypted message when input contains the word 'false'", () => {
       const input = "no false tests";
       const alphabet = "xoyqmcgrukswaflnthdjpzibev";

@@ -8,11 +8,11 @@ const substitutionModule = (function () {
   /*****************************
    * * * * * *  MAIN * * * * * *
    ****************************/
+  const alphaKey = "abcdefghijklmnopqrstuvwxyz".split("");
   function substitution(input, alphabet, encode = true) {
     // your solution code here
     try {
       _validAlphabet(alphabet);
-      const alphaKey = "abcdefghijklmnopqrstuvwxyz".split("");
       const codeKey = alphabet.toLowerCase().split("");
       return input
         .toLowerCase() //ignore case
@@ -25,7 +25,6 @@ const substitutionModule = (function () {
         )
         .join(" "); //join the array of words back into an output string
     } catch (error) {
-      //console.log(`${error}`); //uncomment to print the error to our console for debugging
       return false; //if any words throw an error, return false
     }
   }
@@ -51,16 +50,11 @@ const substitutionModule = (function () {
 
   //Helper function to ensure provided alphabet is valid
   function _validAlphabet(alphabet) {
-    //Alphabet must be a string, and be exactly 26 characters long
-    if (typeof alphabet !== "string")
-      throw new Error(`Alphabet must be a string, and cannot be undefined!`);
     if (alphabet.length !== 26)
       throw new Error(`Alphabet must be exactly 26 characters long!`);
 
-    //check for reused characters
-    for (let char of alphabet)
-      if (alphabet.indexOf(char) !== alphabet.lastIndexOf(char))
-        throw new Error(`Alphabet cannot have repeated characters!`);
+    if ([...new Set(alphabet)].length !== alphabet.length)
+      throw new Error(`Alphabet cannot contain repeating characters!`);
   }
 
   return {
