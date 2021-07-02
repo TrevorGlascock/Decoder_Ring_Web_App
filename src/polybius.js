@@ -5,15 +5,17 @@
 
 const polybiusModule = (function () {
   // you can add any code you want within this function scope
+  /****** Constant Keys ******/
+  const keys = {
+    alphaKey: _createKey("alpha"),
+    coordKey: _createKey("coord"),
+  };
+
   /*****************************
    * * * * * *  MAIN * * * * * *
    ****************************/
   function polybius(input, encode = true) {
     //Made two key matrices with developer functions instead of hardcoding the keys
-    const keys = {
-      alphaKey: _createKey("alpha"),
-      coordKey: _createKey("coord"),
-    };
     try {
       if (!input.length) throw new Error(`Input cannot be empty!`);
       return input

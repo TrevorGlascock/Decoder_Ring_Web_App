@@ -5,10 +5,11 @@
 
 const substitutionModule = (function () {
   // you can add any code you want within this function scope
+  /**************** Standard Alphabet ****************/
+  const alphaKey = "abcdefghijklmnopqrstuvwxyz".split("");
   /*****************************
    * * * * * *  MAIN * * * * * *
    ****************************/
-  const alphaKey = "abcdefghijklmnopqrstuvwxyz".split("");
   function substitution(input, alphabet, encode = true) {
     // your solution code here
     try {
