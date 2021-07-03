@@ -17,14 +17,14 @@ const substitutionModule = (function () {
       const codeKey = alphabet.toLowerCase().split("");
       return input
         .toLowerCase() //ignore case
-        .split(" ") //seperate the input string into an array of words
+        .split("") //seperate the input string into an array of letters
         .map(
           (word) =>
             encode
-              ? iterateWord(word, alphaKey, codeKey) // if encoding, we're going from base alphabet to coded alphabet
-              : iterateWord(word, codeKey, alphaKey) // else, we're going from coded to base
+              ? _mapTo(word, alphaKey, codeKey) // if encoding, we're going from base alphabet to coded alphabet
+              : _mapTo(word, codeKey, alphaKey) // else, we're going from coded to base
         )
-        .join(" "); //join the array of words back into an output string
+        .join(""); //join the array of letters back into an output string
     } catch (error) {
       return false; //if any words throw an error, return false
     }
@@ -33,16 +33,9 @@ const substitutionModule = (function () {
   /*********************************
    * * * *  HELPER FUNCTIONS * * * *
    ********************************/
-  //Helper function to iterate by word, ensuring spaces are preserved
-  function iterateWord(word, fromKey, toKey) {
-    return word
-      .split("") //seperate the word string into an array of letters
-      .map((letter) => _mapTo(letter, fromKey, toKey)) //** This is where the magic happens baybee **//
-      .join(""); //join the array of letters back into a word string
-  }
-
   //Helper function that finds a provided character on the fromKey array, and maps the input to the same index on the toKey array
   function _mapTo(input, fromKey, toKey) {
+    if (input.match(/\s/)) return input; //if the character is a whitespace, we wish to preserve it
     const index = fromKey.indexOf(input); //finds the index of the matching character in the fromKey
     if (index === -1)
       throw new Error(`${input} not found in the provided alphabet!`); //if our alphabet doesn't contain that character, throw new Error()
