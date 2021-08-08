@@ -14,7 +14,7 @@ Message Decoder App that enables a user to encode or decode messages using 3 dif
 
 ## **Substitution Cipher** 
 
-![Caesar Shift Screenshot](https://raw.githubusercontent.com/TrevorGlascock/Project_Decoder_Ring_1/main/Screenshots/Caesar.png)
+![Caesar Shift Screenshot](https://raw.githubusercontent.com/TrevorGlascock/Project_Decoder_Ring_1/main/Screenshots/Substitution.png)
 
 ## Technology
 - Built with Node.js
